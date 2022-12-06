@@ -7,18 +7,27 @@
     <title>home</title>
     <!-- <link rel="stylesheet" src="/styles.css"> -->
     <link rel="stylesheet" type="text/css" href="/public/styles.css" />
-</head>
+  </head>
+  <nav>
+    <h2><%= Name%></h2>
+    <div>
+
+      <% if (!Name) { %>
+  
+      <a href="/login">Login</a>
+      <a href="/register">Sign Up</a>
+      <% } %>
+    </div>
+  </nav>
   <body>
     <h1>This is home page</h1>
-    <h2><%= Name%></h2>
-    <% if(Name === 'harry'){ %> 
-    <% Table.forEach(element => { %>
-        <h2><%= element.username %> </h2>
-    <% }) %>
-    <% } %> 
+    <form>
 
-    <a href="/login">Login</a>
-    <a href="/register">Sign Up</a>
+      <% if(Name === 'harry'){ %> <% Table.forEach(element => { %>
+      <h2><%= element.username %></h2>
+      <% }) %> <% } %>
+    </form>
+
     <h2><a href="/secret">Secret</a></h2>
   </body>
 </html>

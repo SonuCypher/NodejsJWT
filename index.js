@@ -13,7 +13,7 @@ let JWTID,
 mongoose.connect("mongodb://localhost:27017/myProject");
 
 // app.use(express.static(__dirname + '/public'));
-app.use('/public', express.static('public'));
+app.use("/public", express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "views");
 app.use(express.urlencoded({ extended: true }));
@@ -49,7 +49,6 @@ app.post("/register", async (req, res) => {
   const decoded = jwt.verify(token, SECRET_KEY);
   INFO = decoded.username;
   JWTID = decoded.id;
-  // req.session.user_id = user._id;
   res.redirect("/secret");
 });
 
@@ -69,8 +68,6 @@ app.post("/login", async (req, res) => {
       const decoded = jwt.verify(token, SECRET_KEY);
       INFO = decoded.username;
       JWTID = decoded.id;
-      // req.session.user_id = user._id;
-      // res.redirect('/secret');
       console.log("you are logged in " + user + token);
       console.log("you are logged in " + decoded.id);
       res.redirect("/secret");
@@ -84,8 +81,6 @@ app.post("/login", async (req, res) => {
 app.post("/logout", (req, res) => {
   JWTID = null;
   INFO = null;
-  //  req.session.user_id = null
-  // req.session.destroy()
   res.redirect("/");
 });
 
@@ -96,10 +91,6 @@ app.get("/secret", (req, res) => {
   res.render("secret");
 });
 
-const findAll = async () => {
-  const filter = {};
-  const all = await User.find(filter);
-};
 
 app.listen(3000, () => {
   console.log("serving your app on 3000");
