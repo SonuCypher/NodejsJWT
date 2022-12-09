@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // const session = require('express-session')
 const SECRET_KEY = "JWTSECRET";
 let JWTID,
-  INFO = null;
+  INFO = null,MyTable=null;
 // const Name = 'ABDUL SUHAIB'
 
 mongoose.connect("mongodb://localhost:27017/myProject");
@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
   const filter = {};
   const all = await User.find(filter);
+  MyTable = all
   // console.log(all)
   res.render("home", { Name: INFO, Table: all });
 });
@@ -68,8 +69,8 @@ app.post("/login", async (req, res) => {
       const decoded = jwt.verify(token, SECRET_KEY);
       INFO = decoded.username;
       JWTID = decoded.id;
-      console.log("you are logged in " + user + token);
-      console.log("you are logged in " + decoded.id);
+      // console.log("you are logged in " + user + token);
+      // console.log("you are logged in " + decoded.id);
       res.redirect("/secret");
     } else {
       res.redirect("/login");
@@ -91,6 +92,26 @@ app.get("/secret", (req, res) => {
   res.render("secret");
 });
 
+app.get("/delete/:id", async (req, res)=>{
+  const user = await User.deleteOne({ _id: req.params.id });
+  console.log(user)
+  res.redirect('/secret')
+})
+
+app.get('/update/:id',async(req, res)=>{
+  const filter = {};
+  const all = await User.find(filter);
+  console.log(req.params.id)
+  res.render('update',{UserID:req.params.id,Users:all})
+})
+app.post('/update/:id',async(req, res)=>{
+  const { username , password } = req.body
+  const update= await User.findByIdAndUpdate(req.params.id,{username:username})
+  console.log(req.params.id)
+  console.log(update)
+  res.redirect('/')
+
+})
 
 app.listen(3000, () => {
   console.log("serving your app on 3000");

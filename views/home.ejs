@@ -11,9 +11,8 @@
   <nav>
     <h2><%= Name%></h2>
     <div>
-
       <% if (!Name) { %>
-  
+
       <a href="/login">Login</a>
       <a href="/register">Sign Up</a>
       <% } %>
@@ -22,12 +21,17 @@
   <body>
     <h1>This is home page</h1>
     <form>
-
       <% if(Name === 'harry'){ %> <% Table.forEach(element => { %>
-      <h2><%= element.username %></h2>
-      <% }) %> <% } %>
+
+        <a href="/delete/<%= element._id %>">
+          <h4>Delete</h4>
+        </a>
+      <a href="/update/<%= element._id %> "><h2 id="<%=element._id %>"><%= element.username %></h2></a>
+      <% })} %>
     </form>
 
     <h2><a href="/secret">Secret</a></h2>
+
+    <script src="/public/home.js"></script>
   </body>
 </html>
